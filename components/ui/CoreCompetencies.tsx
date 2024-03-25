@@ -3,9 +3,9 @@ import React from "react";
 
 interface Competency {
   _key: string;
-  imageUrl: string;
   title: string;
   description: string;
+  imageUrl: string;
 }
 
 interface Props {

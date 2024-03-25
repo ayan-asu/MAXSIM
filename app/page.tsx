@@ -128,6 +128,7 @@ const Home = () => {
   const [homepageInfo, setHomepageInfo] = useState<HomepageInfo | null>(null); // Add type annotation
   const [sponsors, setSponsors] = useState<any[] | null>(null);
   const [team, setTeam] = useState<any[] | null>(null);
+  const [competencies, setCompetencies] = useState<any[] | null>(null);
   const [products, setProducts] = useState<any[] | null>(null);
   const [news, setNews] = useState<any[] | null>(null);
   const [testimonials, setTestimonials] = useState<any[]>([]); // Adjusted type to any[] as it's an array
@@ -249,6 +250,7 @@ const Home = () => {
         setProducts(data.result.products);
         setNews(data.result.news);
         setTestimonials(data.result.testimonials["testimonials"]);
+        setCompetencies(data.result.homepageInfo.coreCompetencies);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching homepage data:", error);
@@ -318,17 +320,17 @@ const Home = () => {
       {loading ? (
         <SkeletonLoader />
       ) : (
-        <CoreCompetencies data={homepageInfo?.coreCompetencies} />
+        <CoreCompetencies data={competencies ?? []} />
       )}
 
       {/* Team Section */}
-      <Team teamMembers={team} />
+      <Team teamMembers={team ?? []} />
 
       {/* Press */}
-      <NewsSection news={news} />
+      <NewsSection news={news ?? []} />
 
       {/* Sponsors */}
-      <Sponsors sponsors={sponsors} />
+      <Sponsors sponsors={sponsors ?? []} />
 
       {/* Testimonials */}
       {testimonials.length > 0 && <Testimonials testimonials={testimonials} />}
