@@ -1,8 +1,16 @@
 import React from "react";
 import Link from "next/link";
 
-// TeamMember component
-const TeamMember = ({
+interface TeamMemberProps {
+  name: string;
+  role: string;
+  photoUrl: string;
+  introduction: string;
+  linkedUrl: string;
+  email: string;
+}
+
+const TeamMember: React.FC<TeamMemberProps> = ({
   name,
   role,
   photoUrl,

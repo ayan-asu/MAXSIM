@@ -1,6 +1,15 @@
 import Image from "next/image";
 
-export default function Sponsors({ sponsors }) {
+interface Sponsor {
+  logoUrl: string;
+  name: string;
+}
+
+interface Props {
+  sponsors: Sponsor[];
+}
+
+export default function Sponsors({ sponsors }: Props) {
   if (!sponsors || !Array.isArray(sponsors) || sponsors.length === 0) {
     return null; // Render nothing if sponsors is null, not an array, or empty
   }

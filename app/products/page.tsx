@@ -164,7 +164,10 @@ function Page() {
       {selectedProduct.manualUrl && (
         <button
           className="bg-white-500 text-blue py-2 px-4 rounded border border-blue-300 flex items-center space-x-2 mb-2"
-          onClick={() => (window.location.href = selectedProduct.manualUrl)}
+          onClick={() =>
+            selectedProduct?.manualUrl &&
+            (window.location.href = selectedProduct.manualUrl)
+          }
         >
           <FaDownload />
           <span>User Manual</span>

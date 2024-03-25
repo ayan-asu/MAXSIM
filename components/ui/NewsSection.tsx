@@ -1,7 +1,15 @@
 import React from "react";
-import Image from "next/image";
 
-const NewsSection = ({ news }) => {
+interface Article {
+  title: string;
+  description: string;
+}
+
+interface Props {
+  news: Article[];
+}
+
+const NewsSection: React.FC<Props> = ({ news }) => {
   return (
     <section className="bg-gray-100 py-8" id="news">
       <div className="max-w-7xl mx-auto px-4">
@@ -22,8 +30,11 @@ const NewsSection = ({ news }) => {
   );
 };
 
-const NewsCard = ({ title, description }) => {
-  function formatProductDescription(description) {
+const NewsCard: React.FC<{ title: string; description: string }> = ({
+  title,
+  description,
+}) => {
+  function formatProductDescription(description: string) {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
 
     return description.split("\n").map((paragraph, index) => (

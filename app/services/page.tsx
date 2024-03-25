@@ -5,8 +5,22 @@ import Link from "next/link";
 
 import { groq } from "next-sanity";
 
+interface ServicesData {
+  cover: {
+    imageUrl: string;
+    title: string;
+    tagline: string;
+  };
+  services: {
+    title: string;
+    imageUrl: string;
+    description: string;
+  }[];
+  contactTagline: string;
+}
+
 function Services() {
-  const [servicesData, setServicesData] = useState(null);
+  const [servicesData, setServicesData] = useState<ServicesData | null>(null);
 
   useEffect(() => {
     const projectId = "b8xc3xdp";

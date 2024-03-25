@@ -1,6 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-function formatProductDescription(description: string) {
+interface TeamMemberProps {
+  name: string;
+  role: string;
+  photoUrl: string;
+  introduction: string;
+  linkedUrl: string;
+  email: string;
+}
+
+function formatProductDescription(description: string): JSX.Element[] {
   return description
     .split("\n") // Split the description by line breaks
     .map((paragraph, index) => (
@@ -12,7 +21,7 @@ function formatProductDescription(description: string) {
 }
 
 // TeamMember component
-const TeamMember = ({
+const TeamMember: React.FC<TeamMemberProps> = ({
   name,
   role,
   photoUrl,
@@ -20,14 +29,7 @@ const TeamMember = ({
   linkedUrl,
   email,
 }) => {
-  // console.log("name", name); // Log received name
-  // console.log("role", role); // Log received role
-  // console.log("photoUrl", photoUrl); // Log received photoUrl
-  // console.log("introduction", introduction); // Log received introduction
-  // console.log("linkedUrl", linkedUrl); // Log received linkedUrl
-  // console.log("email", email); // Log received email
-
-  const [showModal, setShowModal] = React.useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const openModal = () => {
     setShowModal(true);
@@ -96,9 +98,11 @@ const TeamMember = ({
 };
 
 // Team component
-const Team = ({ teamMembers }) => {
-  // console.log("teamMembers", teamMembers); // Log received teamMembers
+interface TeamProps {
+  teamMembers: TeamMemberProps[];
+}
 
+const Team: React.FC<TeamProps> = ({ teamMembers }) => {
   return (
     <section className="bg-white py-8 min-h-[60vh]" id="team">
       <div className="max-w-7xl mx-auto px-4">
