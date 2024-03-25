@@ -10,6 +10,100 @@ import Sponsors from "@/components/ui/Sponsors";
 import { groq } from "next-sanity";
 import { client } from "../lib/sanity";
 
+// Define types for homepageInfo
+interface HomepageInfo {
+  cover?: {
+    asset?: {
+      url?: string;
+    };
+  };
+  title?: string;
+  caption?: string;
+  aboutUs?: string;
+  aboutUsImage?: {
+    asset?: {
+      url?: string;
+    };
+  };
+  coreCompetencies?: {
+    imageUrl?: string;
+    // Add other properties if needed
+  }[];
+  // Add other properties if needed
+  sponsors?: {
+    name?: string;
+    logoUrl?: string;
+  }[];
+  careers?: {
+    jobTitle?: string;
+    jobType?: string;
+    responsibilities?: string;
+    requirements?: string;
+  }[];
+  team?: {
+    name?: string;
+    role?: string;
+    introduction?: string;
+    linkedUrl?: string;
+    photoUrl?: string;
+    email?: string;
+  }[];
+  products?: {
+    productName?: string;
+    productDescription?: string;
+    productImageUrl?: string;
+    demoLink?: string;
+    softwareUrl?: string;
+  }[];
+  news?: {
+    title?: string;
+    description?: string;
+  }[];
+  footer?: {
+    logoUrl?: string;
+    socialMediaHandles?: {
+      platform?: string;
+      url?: string;
+    }[];
+    contactDetails?: {
+      addressLine1?: string;
+      addressLine2?: string;
+      pin?: string;
+    };
+    copyright?: string;
+  };
+  technology?: {
+    youtubeVideoLink?: string;
+    technologies?: {
+      title?: string;
+      description?: string;
+      imageUrl?: string;
+    }[];
+  };
+  services?: {
+    cover?: {
+      imageUrl?: string;
+      title?: string;
+      tagline?: string;
+    };
+    services?: {
+      title?: string;
+      imageUrl?: string;
+      description?: string;
+    }[];
+    contactTagline?: string;
+  };
+  testimonials?: {
+    showPage?: boolean;
+    testimonials?: {
+      givenBy?: string;
+      companyName?: string;
+      companyLogoUrl?: string;
+      description?: string;
+    }[];
+  };
+}
+
 const SkeletonLoader = () => {
   return (
     <div className="animate-pulse">
@@ -31,12 +125,12 @@ const SkeletonLoader = () => {
 };
 
 const Home = () => {
-  const [homepageInfo, setHomepageInfo] = useState(null);
-  const [sponsors, setSponsors] = useState(null);
-  const [team, setTeam] = useState(null);
-  const [products, setProducts] = useState(null);
-  const [news, setNews] = useState(null);
-  const [testimonials, setTestimonials] = useState([]);
+  const [homepageInfo, setHomepageInfo] = useState<HomepageInfo | null>(null); // Add type annotation
+  const [sponsors, setSponsors] = useState<any[] | null>(null);
+  const [team, setTeam] = useState<any[] | null>(null);
+  const [products, setProducts] = useState<any[] | null>(null);
+  const [news, setNews] = useState<any[] | null>(null);
+  const [testimonials, setTestimonials] = useState<any[]>([]); // Adjusted type to any[] as it's an array
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -174,7 +268,7 @@ const Home = () => {
         <section
           className="text-center p-8 relative"
           style={{
-            backgroundImage: `url('${homepageInfo?.cover?.asset.url}')`,
+            backgroundImage: `url('${homepageInfo?.cover?.asset?.url}')`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
@@ -209,7 +303,7 @@ const Home = () => {
             </div>
             <div className="md:w-1/2">
               <Image
-                src={homepageInfo?.aboutUsImage?.asset.url}
+                src={homepageInfo?.aboutUsImage?.asset?.url ?? "/images/4.jpg"}
                 alt="About Us"
                 width={400}
                 height={600}
