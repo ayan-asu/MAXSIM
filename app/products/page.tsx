@@ -9,10 +9,11 @@ interface Product {
   productImageUrl: string;
   demoLink: string;
   softwareUrl: string;
+  manualUrl?: string;
 }
 
 function Page() {
-  const [productName, setProductName] = useState<string | undefined>(undefined);
+  const [productName, setProductName] = useState<string>("");
   const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(
     undefined
   );
@@ -94,7 +95,11 @@ function Page() {
     // Fetch initial query parameter on mount
     const urlParams = new URLSearchParams(window.location.search);
     const productNameParam = urlParams.get("productName");
-    setProductName(productNameParam);
+
+    // Check if productNameParam is valid before setting the state
+    if (typeof productNameParam === "string") {
+      setProductName(productNameParam);
+    }
   }, [products]);
 
   useEffect(() => {
