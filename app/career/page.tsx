@@ -1,143 +1,170 @@
 "use client";
 
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import groq from "groq";
+=======
+import React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+>>>>>>> b31c15ec92bfa41e299a85b301a7015dd94073de
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+  Form,
+  FormField,
+  FormLabel,
+  FormControl,
+  FormMessage,
+  FormDescription,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-// Define the structure of your career data for TypeScript (if you're using it)
-type CareerData = {
-  jobTitle: string;
-  jobType: string;
-  responsibilities: string[];
-  requirements: string[];
+import { createClient } from "next-sanity";
+
+const config = {
+  projectId: "b8xc3xdp",
+  dataset: "production",
+  useCdn: true,
+  token:
+    "sklaqB5vT7rlEInz0zNOkZg2PjFcHjcXHUMatmYLkltBRYOrh8jCYK63AVj4nn7rWK06cvgbUTf26WKtHhen6KK3pMXTPEoLAl3D5B4e3XgnbXRoufbx1bh4qoakLIX2I0bbfKfNyo47MYHLV9dDhxRiJQD18yq7giI6SVvQsROiKQWjStjQ",
+  apiVersion: "2021-03-25",
 };
 
-const SkeletonLoader = () => {
-  return (
-    <div className="animate-pulse" style={{ minHeight: "65vh" }}>
-      <div className="w-full h-20 bg-gray-0 mb-8"></div>
-      <div className="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto">
-        <div className="md:w-1/2 pr-8">
-          <div className="w-32 h-4 bg-gray-200 mb-4"></div>
-          <div className="w-full h-4 bg-gray-200 mb-4"></div>
-          <div className="w-3/4 h-4 bg-gray-200 mb-4"></div>
-          <div className="w-2/4 h-4 bg-gray-200 mb-4"></div>
-          <div className="w-1/2 h-4 bg-gray-200 mb-4"></div>
-        </div>
-        <div className="md:w-1/2">
-          <div className="w-full h-64 bg-gray-200"></div>
-        </div>
-      </div>
-    </div>
-  );
-};
+const client = createClient(config);
 
-const Careers = () => {
-  const [careers, setCareers] = useState<CareerData[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [defaultOpen, setDefaultOpen] = useState<number | null>(null);
+const formSchema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  email: z.string().email("Invalid email address"),
+  phoneNumber: z
+    .string()
+    .min(10, "Phone number must be 10 digits")
+    .max(10, "Phone number must be 10 digits"),
+  message: z.string().max(400, "Message must be at most 400 characters long"),
+});
 
-  useEffect(() => {
-    const projectId = "b8xc3xdp";
-    const datasetName = "production";
+export function ContactUsForm() {
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phoneNumber: "",
+      message: "",
+    },
+  });
 
-    const query = groq`*[_type == "career"] {
-      jobTitle,
-      jobType,
-      responsibilities,
-      requirements
-    }`;
-
-    const fetchCareers = async () => {
+  const handleButtonClick = async (values) => {
+    console.log("Form values:", values.message);
+    if (values.message !== "") {
       try {
-        const response = await fetch(
-          `https://${projectId}.api.sanity.io/v2021-10-21/data/query/${datasetName}?query=${encodeURIComponent(
-            query
-          )}`
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch career data");
-        }
-
-        const data = await response.json();
-        setCareers(data.result); // assuming that the data returned has a 'result' key that contains the career data
-        setLoading(false);
+        await client.create({
+          _type: "contact", // Change 'your_document_type' to the actual type in your Sanity schema.
+          ...values,
+        });
+        alert("Form submitted successfully!");
       } catch (error) {
-        console.error("Error fetching career data:", error);
-        setLoading(false);
+        console.error("Error submitting form:", error);
+        alert(
+          "An error occurred while submitting the form. Please try again later."
+        );
       }
-    };
-
-    fetchCareers();
-  }, []);
-
-  useEffect(() => {
-    // Find the index of the "use client" accordion item
-    const useClientIndex = careers.findIndex(
-      (career) => career.jobTitle === "use client"
-    );
-    setDefaultOpen(useClientIndex >= 0 ? useClientIndex : null);
-  }, [careers]);
-
-  if (loading) {
-    return <SkeletonLoader />;
-  }
+    } else {
+      alert("Don't leave the fields empty");
+    }
+  };
+  const onSubmit = (values) => {
+    console.log("Form values:", values);
+    alert(JSON.stringify(values));
+  };
 
   return (
-    <section
-      className="bg-white-100 py-8"
-      id="careers"
+    <div
+      className="min-h-screen flex items-center justify-center p-4"
       style={{ minHeight: "65vh" }}
     >
-      <div className="max-w-6xl mx-auto px-4">
-        <h2 className="text-3xl font-bold">Careers</h2>
-        <div className="border-b-4 border-blue-500 w-24 mb-4"></div>
+      <Form
+        {...form}
+        className="w-full max-w-lg mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="firstName"
+            render={({ field }) => (
+              <div>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </div>
+            )}
+          />
 
-        <Accordion type="single" collapsible defaultOpen={defaultOpen}>
-          {careers.map((career, index) => (
-            <AccordionItem
-              key={index}
-              value={career.jobTitle}
-              className="mb-4" // Add margin bottom for spacing between accordion items
-            >
-              <AccordionTrigger className="flex justify-between items-center px-6 py-4 bg-blue-100 text-gray-800 font-medium text-lg rounded-lg cursor-pointer hover:bg-blue-200">
-                {career.jobTitle}
-              </AccordionTrigger>
-              <AccordionContent className="px-6 py-4 bg-gray-50 text-gray-600 border border-gray-200 rounded-lg my-2">
-                <p>
-                  <strong>Job Type:</strong> {career.jobType}
-                </p>
-                <div>
-                  <strong>Responsibilities:</strong>
-                  <ul className="list-disc pl-6">
-                    {career.responsibilities.map(
-                      (responsibility, respIndex) => (
-                        <li key={respIndex}>{responsibility}</li>
-                      )
-                    )}
-                  </ul>
-                </div>
-                <div>
-                  <strong>Requirements:</strong>
-                  <ul className="list-disc pl-6">
-                    {career.requirements.map((requirement, reqIndex) => (
-                      <li key={reqIndex}>{requirement}</li>
-                    ))}
-                  </ul>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </div>
-    </section>
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <div>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input type="email" {...field} />
+                </FormControl>
+                <FormDescription>
+                  We'll never share your email with anyone else.
+                </FormDescription>
+                <FormMessage />
+              </div>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="phoneNumber"
+            render={({ field }) => (
+              <div>
+                <FormLabel>Mobile</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    maxLength="10"
+                    {...field}
+                    pattern="[0-9]{10}"
+                    title="Please enter a 10-digit phone number"
+                  />
+                </FormControl>
+                <FormMessage />
+              </div>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="message"
+            render={({ field }) => (
+              <div>
+                <FormLabel>Message</FormLabel>
+                <FormControl>
+                  <Input as="textarea" {...field} rows={6} maxLength={400} />
+                </FormControl>
+                <FormMessage />
+              </div>
+            )}
+          />
+
+          <Button
+            type="submit"
+            onClick={() => handleButtonClick(form.getValues())}
+          >
+            Submit
+          </Button>
+        </form>
+      </Form>
+    </div>
   );
-};
+}
 
-export default Careers;
+export default ContactUsForm;
