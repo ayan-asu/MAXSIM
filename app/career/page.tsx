@@ -1,14 +1,9 @@
 "use client";
 
-<<<<<<< HEAD
-import React, { useEffect, useState } from "react";
-import groq from "groq";
-=======
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
->>>>>>> b31c15ec92bfa41e299a85b301a7015dd94073de
 import {
   Form,
   FormField,
@@ -114,7 +109,7 @@ export function ContactUsForm() {
                   <Input type="email" {...field} />
                 </FormControl>
                 <FormDescription>
-                  We'll never share your email with anyone else.
+                  We&apos;ll never share your email with anyone else.
                 </FormDescription>
                 <FormMessage />
               </div>
