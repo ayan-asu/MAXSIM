@@ -52,7 +52,23 @@ function Services() {
   }, []);
 
   if (!servicesData) {
-    return <div className="text-center py-10">Loading...</div>; // Render loading state or skeleton here
+    return (
+      <div className="animate-pulse" style={{ minHeight: "65vh" }}>
+        <div className="w-full h-20 bg-gray-200 mb-4"></div>
+        <div className="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto">
+          <div className="md:w-1/2 pr-8">
+            <div className="w-24 h-4 bg-gray-200 mb-2"></div>
+            <div className="w-full h-4 bg-gray-200 mb-2"></div>
+            <div className="w-4/5 h-4 bg-gray-200 mb-2"></div>
+            <div className="w-3/4 h-4 bg-gray-200 mb-2"></div>
+            <div className="w-2/4 h-4 bg-gray-200 mb-2"></div>
+          </div>
+          <div className="md:w-1/2">
+            <div className="w-full h-full bg-gray-200"></div>
+          </div>
+        </div>
+      </div>
+    ); // Render loading state or skeleton here
   }
 
   return (

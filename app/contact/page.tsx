@@ -1,4 +1,5 @@
 "use client";
+// "use client";
 
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -18,12 +19,12 @@ import { Button } from "@/components/ui/button";
 import { createClient } from "next-sanity";
 
 const config = {
-  projectId: "b8xc3xdp", // Find your project ID and dataset in `sanity.json` in your studio project
-  dataset: "production", // or the name of your dataset
-  useCdn: true, // `false` if you want to ensure fresh data
+  projectId: "b8xc3xdp",
+  dataset: "production",
+  useCdn: true,
   token:
-    "sklaqB5vT7rlEInz0zNOkZg2PjFcHjcXHUMatmYLkltBRYOrh8jCYK63AVj4nn7rWK06cvgbUTf26WKtHhen6KK3pMXTPEoLAl3D5B4e3XgnbXRoufbx1bh4qoakLIX2I0bbfKfNyo47MYHLV9dDhxRiJQD18yq7giI6SVvQsROiKQWjStjQ", // Uncomment this line if your dataset requires an API token
-  apiVersion: "2021-03-25", // Use a UTC date string
+    "sklaqB5vT7rlEInz0zNOkZg2PjFcHjcXHUMatmYLkltBRYOrh8jCYK63AVj4nn7rWK06cvgbUTf26WKtHhen6KK3pMXTPEoLAl3D5B4e3XgnbXRoufbx1bh4qoakLIX2I0bbfKfNyo47MYHLV9dDhxRiJQD18yq7giI6SVvQsROiKQWjStjQ",
+  apiVersion: "2021-03-25",
 };
 
 const client = createClient(config);
@@ -109,7 +110,7 @@ export function ContactUsForm() {
                   <Input type="email" {...field} />
                 </FormControl>
                 <FormDescription>
-                  We'll never share your email with anyone else.
+                  We&apos;ll never share your email with anyone else.
                 </FormDescription>
                 <FormMessage />
               </div>
