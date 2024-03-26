@@ -4,6 +4,9 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { groq } from "next-sanity";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 interface LoginFormInputs {
   email: string;
   password: string;
@@ -24,6 +27,7 @@ const LoginPage: React.FC = () => {
 
   const onSubmit = async (data: LoginFormInputs) => {
     if (data.email === "ayan@maxsimpower.com" && data.password === "test@123") {
+      toast.success("Logged in successfully!");
       const projectId = "b8xc3xdp";
       const datasetName = "production";
 
@@ -86,6 +90,7 @@ const LoginPage: React.FC = () => {
       className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
       style={{ minHeight: "65vh" }}
     >
+      <ToastContainer />
       <div className="max-w-md w-full space-y-8">
         {showForm && (
           <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
@@ -146,13 +151,13 @@ const LoginPage: React.FC = () => {
         {/* Render cards if showWelcome is true */}
         {showWelcome && (
           <div className="mt-8 space-y-6">
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              Management Dashboard
-            </h2>
+            <h2 className="text-3xl font-bold">Management Dashboard</h2>
+            <div className="border-b-4 border-blue-500 w-44 mb-2"></div>
             {contactQueries.map((contact, index) => (
               <div
                 key={index}
                 className="p-4 border border-gray-300 rounded-md shadow-md mt-4"
+                style={{ overflowWrap: "break-word" }}
               >
                 <p>
                   <strong>First Name:</strong> {contact.firstName}

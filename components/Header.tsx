@@ -86,7 +86,6 @@ function Header() {
         }
 
         const data = await response.json();
-        console.log("jnfenvf", data.result);
         setProducts(data.result.products);
         setHeaderLogo(data.result.header);
       } catch (error) {

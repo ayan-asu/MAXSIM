@@ -255,7 +255,7 @@ const Home = () => {
       } catch (error) {
         console.error("Error fetching homepage data:", error);
         setHomepageInfo(null);
-        setLoading(false);
+        setLoading(true);
       }
     };
 
