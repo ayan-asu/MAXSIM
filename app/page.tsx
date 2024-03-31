@@ -93,15 +93,32 @@ interface HomepageInfo {
     }[];
     contactTagline?: string;
   };
-  testimonials?: {
-    showPage?: boolean;
-    testimonials?: {
-      givenBy?: string;
-      companyName?: string;
-      companyLogoUrl?: string;
-      description?: string;
-    }[];
-  };
+  // testimonials?: {
+  //   showPage?: boolean;
+  //   testimonials?: {
+  //     givenBy?: string;
+  //     companyName?: string;
+  //     companyLogoUrl?: string;
+  //     description?: string;
+  //   }[];
+  // };
+}
+
+interface Testimonial {
+  showPage: boolean;
+  testimonials: {
+    givenBy?: string;
+    companyName?: string;
+    companyLogoUrl?: string;
+    description?: string;
+  }[];
+}
+
+interface UseTypewriterProps {
+  captions: string[];
+  typingSpeed: number;
+  clearingSpeed: number;
+  delayBetweenCaptions: number;
 }
 
 const SkeletonLoader = () => {
@@ -124,6 +141,55 @@ const SkeletonLoader = () => {
   );
 };
 
+const useTypewriter = ({
+  captions,
+  typingSpeed,
+  clearingSpeed,
+  delayBetweenCaptions,
+}: UseTypewriterProps) => {
+  const [captionIndex, setCaptionIndex] = useState(0);
+  const [text, setText] = useState("");
+  const [isTyping, setIsTyping] = useState(true);
+
+  useEffect(() => {
+    let timeout: ReturnType<typeof setTimeout>;
+
+    // Only start the animation if captions are available
+    if (captions.length > 0) {
+      if (isTyping) {
+        if (text.length < captions[captionIndex].length) {
+          timeout = setTimeout(() => {
+            setText(captions[captionIndex].substring(0, text.length + 1));
+          }, typingSpeed);
+        } else {
+          timeout = setTimeout(() => setIsTyping(false), delayBetweenCaptions);
+        }
+      } else {
+        if (text.length > 0) {
+          timeout = setTimeout(() => {
+            setText(captions[captionIndex].substring(0, text.length - 1));
+          }, clearingSpeed);
+        } else {
+          setIsTyping(true);
+          setCaptionIndex((index) => (index + 1) % captions.length);
+        }
+      }
+    }
+
+    return () => clearTimeout(timeout);
+  }, [
+    text,
+    isTyping,
+    captions,
+    captionIndex,
+    typingSpeed,
+    clearingSpeed,
+    delayBetweenCaptions,
+  ]);
+
+  return text;
+};
+
 const Home = () => {
   const [homepageInfo, setHomepageInfo] = useState<HomepageInfo | null>(null); // Add type annotation
   const [sponsors, setSponsors] = useState<any[] | null>(null);
@@ -131,8 +197,12 @@ const Home = () => {
   const [competencies, setCompetencies] = useState<any[] | null>(null);
   const [products, setProducts] = useState<any[] | null>(null);
   const [news, setNews] = useState<any[] | null>(null);
-  const [testimonials, setTestimonials] = useState<any[]>([]); // Adjusted type to any[] as it's an array
+  const [testimonials, setTestimonials] = useState<Testimonial>({
+    showPage: false,
+    testimonials: [],
+  });
   const [loading, setLoading] = useState(true);
+  const [captions, setCaptions] = useState<string[]>([]);
 
   useEffect(() => {
     const projectId = "b8xc3xdp";
@@ -249,7 +319,8 @@ const Home = () => {
         setTeam(data.result.team);
         setProducts(data.result.products);
         setNews(data.result.news);
-        setTestimonials(data.result.testimonials["testimonials"]);
+        setCaptions(data.result.homepageInfo.caption);
+        setTestimonials(data.result.testimonials);
         setCompetencies(data.result.homepageInfo.coreCompetencies);
         setLoading(false);
       } catch (error) {
@@ -261,6 +332,13 @@ const Home = () => {
 
     fetchHomeInfo();
   }, []);
+
+  const typewriterText = useTypewriter({
+    captions, // Pass the fetched captions
+    typingSpeed: 150,
+    clearingSpeed: 100,
+    delayBetweenCaptions: 2000,
+  });
 
   return (
     <div>
@@ -284,7 +362,10 @@ const Home = () => {
               <h1 className="text-6xl font-bold my-4 text-white">
                 {homepageInfo?.title}
               </h1>
-              <p>{homepageInfo?.caption}</p>
+              <p className="typewriter">
+                {typewriterText}
+                <span className="typewriter-cursor"></span>
+              </p>
             </div>
           </div>
         </section>
@@ -333,7 +414,9 @@ const Home = () => {
       <Sponsors sponsors={sponsors ?? []} />
 
       {/* Testimonials */}
-      {testimonials.length > 0 && <Testimonials testimonials={testimonials} />}
+      {testimonials.showPage && (
+        <Testimonials testimonials={testimonials.testimonials} />
+      )}
     </div>
   );
 };

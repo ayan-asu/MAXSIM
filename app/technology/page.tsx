@@ -71,6 +71,36 @@ const Technology = () => {
     ? extractYoutubeID(technologyData?.youtubeVideoLink || "")
     : null;
 
+  function formatProductDescription(description: string) {
+    // Regular expression to match URLs
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+    // Split the description by line breaks and apply formatting
+    return description.split("\n").map((paragraph, index) => (
+      <React.Fragment key={index}>
+        {paragraph.split(urlRegex).map((text, i) => {
+          if (text.match(urlRegex)) {
+            // Highlight URLs by replacing with anchor tags
+            return (
+              <a
+                key={i}
+                href={text}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: "underline", color: "blue" }}
+              >
+                {text}
+              </a>
+            );
+          } else {
+            return text;
+          }
+        })}
+        <br /> {/* Add <br> tag for line breaks */}
+      </React.Fragment>
+    ));
+  }
+
   if (!technologyData) {
     // Return skeleton loader if technologyData is null
     return (
@@ -100,16 +130,15 @@ const Technology = () => {
 
         {/* Embed YouTube video first */}
         {youtubeVideoId && (
-          <div className="flex justify-center mb-8">
-            <div className="w-full p-4">
-              <iframe
-                className="w-full aspect-video"
-                src={`https://www.youtube.com/embed/${youtubeVideoId}`}
-                title="YouTube video player"
-                frameBorder="0"
-                allowFullScreen
-              ></iframe>
-            </div>
+          <div className="aspect-w-16 aspect-h-9 w-full mb-4 min-h-[360px]">
+            <iframe
+              className="w-full"
+              height="400"
+              src={`https://www.youtube.com/embed/${youtubeVideoId}`}
+              title="YouTube video player"
+              frameBorder="0"
+              allowFullScreen
+            ></iframe>
           </div>
         )}
 
@@ -133,7 +162,7 @@ const Technology = () => {
             </div>
             <div className="w-full md:w-3/4 p-4">
               <h2 className="text-xl font-bold mb-2">{section.title}</h2>
-              <p>{section.description}</p>
+              <p>{formatProductDescription(section.description)}</p>
             </div>
           </div>
         ))}

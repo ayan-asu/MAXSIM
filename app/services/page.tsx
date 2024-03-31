@@ -19,6 +19,36 @@ interface ServicesData {
   contactTagline: string;
 }
 
+function formatProductDescription(description: string) {
+  // Regular expression to match URLs
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+  // Split the description by line breaks and apply formatting
+  return description.split("\n").map((paragraph, index) => (
+    <React.Fragment key={index}>
+      {paragraph.split(urlRegex).map((text, i) => {
+        if (text.match(urlRegex)) {
+          // Highlight URLs by replacing with anchor tags
+          return (
+            <a
+              key={i}
+              href={text}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: "underline", color: "blue" }}
+            >
+              {text}
+            </a>
+          );
+        } else {
+          return text;
+        }
+      })}
+      <br /> {/* Add <br> tag for line breaks */}
+    </React.Fragment>
+  ));
+}
+
 function Services() {
   const [servicesData, setServicesData] = useState<ServicesData | null>(null);
 
@@ -90,11 +120,21 @@ function Services() {
       {/* Cover section */}
       {servicesData.cover && (
         <section
-          className="bg-cover bg-center text-center p-8"
-          style={{ backgroundImage: `url('${servicesData.cover.imageUrl}')` }}
+          className="bg-cover bg-center text-center p-8 relative"
+          style={{
+            backgroundImage: `url('${servicesData.cover.imageUrl}')`,
+            position: "relative",
+          }}
         >
-          <h1 className="text-4xl text-white">{servicesData.cover.title}</h1>
-          <p className="text-white">{servicesData.cover.tagline}</p>
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+          <div className="relative">
+            <h1 className="text-4xl text-white font-semibold relative z-10">
+              {servicesData.cover.title}
+            </h1>
+            <p className="text-white relative z-10">
+              {servicesData.cover.tagline}
+            </p>
+          </div>
         </section>
       )}
 
@@ -125,7 +165,9 @@ function Services() {
                 </div>
                 <div className="w-full lg:w-1/2 p-4">
                   <h3 className="text-2xl font-bold">{service.title}</h3>
-                  <p className="text-gray-600">{service.description}</p>
+                  <p className="text-gray-600">
+                    {formatProductDescription(service.description)}
+                  </p>
                 </div>
               </div>
             ))}

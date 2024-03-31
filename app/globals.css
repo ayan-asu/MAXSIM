@@ -101,6 +101,62 @@
     /* Thumb color on hover */
   }
 
+  @keyframes typewriter {
+    from {
+      width: 0;
+    }
+
+    to {
+      width: 100%;
+    }
+  }
+
+  @keyframes blinkCursor {
+    from {
+      border-right-color: rgba(255, 255, 255, 0.75);
+    }
+
+    to {
+      border-right-color: transparent;
+    }
+  }
+
+  .typewriter {
+    display: inline-block;
+    overflow: hidden;
+    border-right: .15em solid var(--primary);
+    /* Use the primary color variable */
+    white-space: nowrap;
+    /* Keep the text in a single line */
+    margin: 0 auto;
+    /* Give it some space */
+    letter-spacing: .15em;
+    /* Adjust letter spacing */
+    animation:
+      typewriter 3.5s steps(40, end) 1s 1 normal both,
+      blinkCursor 750ms steps(40, end) infinite;
+    @apply font-semibold;
+    /* Apply semi-bold font style */
+  }
+
+
+  .typewriter-cursor {
+    display: inline-block;
+    width: .1em;
+    background: var(--primary);
+    /* Use the primary color variable */
+    margin-left: .1em;
+    animation: blinkCursor 1s steps(2, start) infinite;
+    @apply !bg-blue-500;
+    /* Using Tailwind's utility classes with an important flag */
+  }
+
+  @keyframes blinkCursor {
+    50% {
+      background: transparent;
+    }
+  }
+
 
 }
 

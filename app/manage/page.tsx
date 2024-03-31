@@ -34,7 +34,6 @@ const LoginPage: React.FC = () => {
       const combinedQuery = groq`{
         "requests" :*[_type == 'contact'] {
             firstName,
-            lastName,
             email,
             phoneNumber,
             message
@@ -161,9 +160,6 @@ const LoginPage: React.FC = () => {
               >
                 <p>
                   <strong>First Name:</strong> {contact.firstName}
-                </p>
-                <p>
-                  <strong>Last Name:</strong> {contact.lastName}
                 </p>
                 <p>
                   <strong>Email:</strong> {contact.email}

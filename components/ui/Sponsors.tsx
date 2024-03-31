@@ -24,14 +24,14 @@ export default function Sponsors({ sponsors }: Props) {
             <div
               key={index}
               className="flex flex-col items-center w-full md:w-auto mb-4 md:mb-0" // Added margin bottom for spacing
+              style={{ width: "200px", height: "200px" }} // Set width and height of container
             >
-              <div className="w-24 h-24 md:w-32 md:h-32">
+              <div className="w-full h-full relative">
                 <Image
                   src={sponsor.logoUrl}
                   alt={sponsor.name}
-                  width={128} // Adjust based on actual logo size
-                  height={128} // Adjust based on actual logo size
-                  layout="responsive"
+                  layout="fill" // Fill the parent container
+                  objectFit="contain" // Maintain aspect ratio without stretching or compressing
                 />
               </div>
               <p className="mt-2 font-medium text-center">{sponsor.name}</p>

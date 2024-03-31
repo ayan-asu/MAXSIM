@@ -147,12 +147,21 @@ function Page() {
     <div className="max-w-6xl mx-auto px-4 py-8">
       <div className="flex justify-between items-center">
         <h2 className="text-3xl font-bold">{selectedProduct.productName}</h2>
-        <button
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-green-700 transition"
-          onClick={() => (window.location.href = selectedProduct.softwareUrl)}
-        >
-          Try {selectedProduct.productName} Software for free
-        </button>
+        <div>
+          <button
+            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition mr-2"
+            onClick={() => (window.location.href = selectedProduct.softwareUrl)}
+          >
+            Try {selectedProduct.productName} Software for free
+          </button>
+          {/* Updated Contact Us Button */}
+          <button
+            className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition"
+            onClick={() => (window.location.href = "/contact")}
+          >
+            Contact Us for Full Product
+          </button>
+        </div>
       </div>
       <div className="border-b-4 border-blue-500 w-24 mb-4"></div>
 

@@ -12,6 +12,36 @@ interface Props {
   data: Competency[];
 }
 
+function formatProductDescription(description: string) {
+  // Regular expression to match URLs
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+  // Split the description by line breaks and apply formatting
+  return description.split("\n").map((paragraph, index) => (
+    <React.Fragment key={index}>
+      {paragraph.split(urlRegex).map((text, i) => {
+        if (text.match(urlRegex)) {
+          // Highlight URLs by replacing with anchor tags
+          return (
+            <a
+              key={i}
+              href={text}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: "underline", color: "blue" }}
+            >
+              {text}
+            </a>
+          );
+        } else {
+          return text;
+        }
+      })}
+      <br /> {/* Add <br> tag for line breaks */}
+    </React.Fragment>
+  ));
+}
+
 export default function CoreCompetencies({ data }: Props) {
   return (
     <section className="bg-gray-100 py-8" id="corecompetencies">
@@ -29,7 +59,9 @@ export default function CoreCompetencies({ data }: Props) {
                 layout="responsive"
               />
               <h3 className="text-2xl font-bold mt-4">{competency.title}</h3>
-              <p className="mt-2 text-gray-600">{competency.description}</p>
+              <p className="mt-2 text-gray-600">
+                {formatProductDescription(competency.description)}
+              </p>
             </div>
           ))}
         </div>
