@@ -159,7 +159,7 @@ function Page() {
             className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition"
             onClick={() => (window.location.href = "/contact")}
           >
-            Contact Us for Full Product
+            Purchase
           </button>
         </div>
       </div>

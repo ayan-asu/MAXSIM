@@ -292,25 +292,16 @@ function Header() {
                       </Disclosure.Button>
                       <Disclosure.Panel className="mt-2 space-y-2">
                         {products.map((item, index) => (
-                          <div
+                          <Link
                             key={item.productName}
-                            className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50"
+                            href={`/products?productName=${encodeURIComponent(
+                              item.productName
+                            )}`}
+                            className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-black hover:bg-blue-800 hover:text-white"
+                            onClick={() => setMobileMenuOpen(false)} // Add this line
                           >
-                            <div className="flex-auto">
-                              <div
-                                className="block font-semibold text-[#013B94]"
-                                onClick={() => {
-                                  const newPath =
-                                    "/products?productName=" +
-                                    encodeURIComponent(item.productName);
-                                  window.location.href = newPath;
-                                }}
-                              >
-                                {item.productName}
-                                <span className="absolute inset-0" />
-                              </div>
-                            </div>
-                          </div>
+                            {item.productName}
+                          </Link>
                         ))}
                       </Disclosure.Panel>
                     </>
@@ -319,42 +310,56 @@ function Header() {
                 <Link
                   href="/#about"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-black hover:bg-blue-800 hover:text-white"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   About
                 </Link>
                 <Link
                   href="/#corecompetencies"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-black hover:bg-blue-800 hover:text-white"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   Core Competencies
                 </Link>
                 <Link
                   href="/technology"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-black hover:bg-blue-800 hover:text-white"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   Technology
                 </Link>
                 <Link
                   href="/#team"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-black hover:bg-blue-800 hover:text-white"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   Team
                 </Link>
                 <Link
                   href="/#news"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-black hover:bg-blue-800 hover:text-white"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   News
                 </Link>
                 <Link
+                  href="/services"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-black hover:bg-blue-800 hover:text-white"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Services
+                </Link>
+                <Link
                   href="/career"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-black hover:bg-blue-800 hover:text-white"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   Career
                 </Link>
                 <Link
                   href="/contact"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-black hover:bg-blue-800 hover:text-white"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   Contact
                 </Link>

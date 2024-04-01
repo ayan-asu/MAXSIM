@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import {
@@ -9,6 +10,7 @@ import {
   FaYoutube,
 } from "react-icons/fa";
 import { groq } from "next-sanity";
+import { useMediaQuery } from "@react-hook/media-query"; // Import the hook
 
 export default function Footer() {
   const defaultdata = {
@@ -90,17 +92,17 @@ export default function Footer() {
     fetchFooterData();
   }, []);
 
-  // if (!footerData) {
-  //   return <div>Loading...</div>;
-  // }
+  const isMobile = useMediaQuery("(max-width: 768px)"); // Define mobile breakpoint
+
+  const marginRightClass = isMobile ? "mr-6" : "mr-12"; // Set margin right class based on screen width
 
   const { logoUrl, socialMediaHandles, contactDetails, copyright } = footerData;
 
   return (
-    <footer className="bg-gray-100 py-6">
+    <footer className="bg-gray-100 py-6 overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 flex justify-between items-center">
         {/* Logo and Social Icons */}
-        <div className="flex flex-col items-center mr-12">
+        <div className={`flex flex-col items-center ${marginRightClass}`}>
           {/* Logo */}
           {logoUrl && (
             <Image
