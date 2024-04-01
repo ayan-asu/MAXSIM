@@ -123,7 +123,8 @@ interface UseTypewriterProps {
 
 const SkeletonLoader = () => {
   return (
-    <div className="animate-pulse">
+    <div className="animate-pulse min-w-[80%]">
+      {" "}
       <div className="w-full h-20 bg-gray-200 mb-4"></div>
       <div className="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto">
         <div className="md:w-1/2 pr-8">
