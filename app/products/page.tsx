@@ -152,14 +152,15 @@ function Page() {
             className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition mr-2"
             onClick={() => (window.location.href = selectedProduct.softwareUrl)}
           >
-            Try {selectedProduct.productName} Software for free
+            {/* Try {selectedProduct.productName} Software for free */}
+            Free Trail
           </button>
           {/* Updated Contact Us Button */}
           <button
             className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition"
             onClick={() => (window.location.href = "/contact")}
           >
-            Purchase
+            Purchase the full version
           </button>
         </div>
       </div>

@@ -94,12 +94,12 @@ export default function Footer() {
 
   const isMobile = useMediaQuery("(max-width: 768px)"); // Define mobile breakpoint
 
-  const marginRightClass = isMobile ? "mr-6" : "mr-12"; // Set margin right class based on screen width
+  const marginRightClass = isMobile ? "mr-12" : "mr-6"; // Set margin right class based on screen width
 
   const { logoUrl, socialMediaHandles, contactDetails, copyright } = footerData;
 
   return (
-    <footer className="bg-gray-100 py-6 overflow-hidden">
+    <footer className="bg-gray-100 py-6">
       <div className="max-w-6xl mx-auto px-4 flex justify-between items-center">
         {/* Logo and Social Icons */}
         <div className={`flex flex-col items-center ${marginRightClass}`}>
@@ -128,7 +128,7 @@ export default function Footer() {
         </div>
 
         {/* Company Links */}
-        <div className="flex flex-col mr-12">
+        <div className={`flex flex-col ${marginRightClass}`}>
           <h3 className="font-bold mb-2">Our Company</h3>
           <a href="/#about" className="mb-1 hover:text-blue-600">
             About Us
