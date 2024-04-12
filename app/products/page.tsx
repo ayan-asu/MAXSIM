@@ -153,7 +153,7 @@ function Page() {
             onClick={() => (window.location.href = selectedProduct.softwareUrl)}
           >
             {/* Try {selectedProduct.productName} Software for free */}
-            Free Trail
+            Free Trial
           </button>
           {/* Updated Contact Us Button */}
           <button
